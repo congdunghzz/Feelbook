@@ -3,7 +3,7 @@ let keyword = '';
 let numOfBtn = document.getElementById('get-btn');
 let currPage = 1;
 let post = document.getElementById('posts')
-console.log(post)
+
 function fetchData(key,page) {
 
     if(key === null)
@@ -14,6 +14,7 @@ function fetchData(key,page) {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
+            console.log(data)
             let htmlCode = '';
             data.forEach(object => {
 
@@ -71,7 +72,7 @@ async function getLikesOfPost(post_id){
     await fetch(`http://localhost:8080/Feelbook/post-like/get-num-likes?post-id=${post_id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+
             result = data.likes;
         })
         .catch(err => console.error(err));
@@ -84,7 +85,6 @@ function Like (btn, post_id){
         .then(response => response.json())
         .then(date => {
             if (date.message === "successfully"){
-                console.log(btn.value);
 
                 btn.value = parseInt(btn.value) + 1;
                 btn.textContent = btn.value + ' Likes';

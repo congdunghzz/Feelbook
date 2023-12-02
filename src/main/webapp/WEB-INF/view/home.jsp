@@ -88,7 +88,7 @@
     </div>--%>
 
     <div>
-        <button class="paging" style='display:none'>Load more</button>
+        <button class="paging" >Load more</button>
     </div>
 </div>
 

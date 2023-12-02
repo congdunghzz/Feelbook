@@ -9,6 +9,7 @@ import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("commentService")
@@ -19,7 +20,7 @@ public class CommentService {
     private UserDaoIml userDao;
 
     private List<CommentDto> TransferDto(List<Comment> commentList){
-        List<CommentDto> result = null;
+        List<CommentDto> result = new ArrayList<>();
         for (Comment item : commentList) {
             result.add(new CommentDto(item, new UserDto(userDao.getById(item.getUser_id()))));
         }
@@ -37,6 +38,7 @@ public class CommentService {
 
     public CommentDto getCommentById( int comment_id){
         Comment db_comment = commentDao.getById(comment_id);
+        if (db_comment == null) return null;
         return new CommentDto(db_comment, new UserDto(userDao.getById(db_comment.getUser_id())));
     }
 

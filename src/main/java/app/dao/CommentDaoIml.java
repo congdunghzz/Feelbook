@@ -34,7 +34,8 @@ public class CommentDaoIml {
     public Comment getById(int comment_id) {
         String sql = "SELECT * FROM comment WHERE comment_id = ?";
         try {
-            Comment result = jdbcTemplate.queryForObject(sql, Comment.class, comment_id);
+            Comment result = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Comment.class), comment_id);
+
             return result;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -69,7 +70,7 @@ public class CommentDaoIml {
 
     public Comment add(Comment comment) {
         String sql = "INSERT INTO comment (content, create_at, user_id, post_id) VALUES (?,?,?,?)";
-        String getCommentSql = "SELECT * FROM comment WHERE comment = (SELECT MAX(comment_id) FROM comment)";
+        String getCommentSql = "SELECT * FROM comment WHERE comment_id = (SELECT MAX(comment_id) FROM comment)";
         try {
             Object[] args = {comment.getContent(), comment.getCreate_at(), comment.getUser_id(), comment.getPost_id()};
             jdbcTemplate.update(sql, args);

@@ -26,12 +26,11 @@ public class PostApi {
     @GetMapping("/post_per_page")
     @ResponseBody
     public List<PostDto> getPost (@RequestParam(value = "key", required = false) String key,
-                                  @RequestParam(value = "page", required = false) Long page){
-        // response.setContentType("application/json");
+                                  @RequestParam(value = "page", required = false) Long page, HttpSession session){
         if (key == null) key = "";
         if (page == null) page = 1L;
         int numOfItem = 3;
-
+        /*if ((UserDto) session.getAttribute("user") == null) return null;*/
         List<PostDto> postList = postService.getByNameWithPerPage(key, page.intValue(), numOfItem);
 
         return postList;

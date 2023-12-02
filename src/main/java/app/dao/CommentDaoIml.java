@@ -93,6 +93,17 @@ public class CommentDaoIml {
             return false;
         }
     }
+    public boolean deleteAllFromPost(int post_id) {
+        String sql = "DELETE FROM comment WHERE post_id = ?";
+        try {
+            Object[] args = {post_id};
+            jdbcTemplate.update(sql, args);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 
                         // Update
     public boolean edit(int comment_id,String content) {

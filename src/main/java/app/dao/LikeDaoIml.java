@@ -55,6 +55,18 @@ public class LikeDaoIml {
         }
     }
 
+    public boolean deleteAllFromPost(int post_id){
+        String sql = "DELETE FROM post_like WHERE post_id = ?";
+        Object[] args = {post_id};
+        try{
+            jdbcTemplate.update(sql, args);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public List<User> getAllLikedUser(int post_id){
         String sql = "SELECT * FROM user WHERE user_id IN (SELECT user_id FROM post_like WHERE post_id = ?)";
         try{

@@ -1,5 +1,6 @@
 package app.service;
 
+import app.dao.CommentDaoIml;
 import app.dao.LikeDaoIml;
 import app.dao.PostDaoIml;
 import app.dao.UserDaoIml;
@@ -28,6 +29,8 @@ public class PostService {
     private UserDaoIml userDao;
     @Autowired
     private LikeDaoIml likeDao;
+    @Autowired
+    private CommentDaoIml commentDao;
 
 
     public List<PostDto> getAll(){
@@ -128,8 +131,14 @@ public class PostService {
     }
 
     public boolean DeletePost(int post_id){
-        return postDao.Delete(post_id);
+
+        boolean result = false;
+        commentDao.deleteAllFromPost(post_id);
+        likeDao.deleteAllFromPost(post_id);
+        if (postDao.Delete(post_id)) result = true;
+        return result;
     }
+
 
     public PostDto EditPost(String content, int post_id){
         PostDto result = null;
@@ -161,6 +170,17 @@ public class PostService {
         Post post = postDao.getById(post_id);
         if (post != null){
             if(likeDao.delete(post_id,user_id)) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public boolean deleteAllFromPost(int post_id){
+        boolean result = false;
+        Post post = postDao.getById(post_id);
+        if (post != null){
+            if(likeDao.deleteAllFromPost(post_id)) {
                 result = true;
             }
         }

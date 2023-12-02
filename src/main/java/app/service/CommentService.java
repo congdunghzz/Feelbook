@@ -74,4 +74,9 @@ public class CommentService {
     public boolean deleteComment(int comment_id){
         return commentDao.delete(comment_id);
     }
+    public boolean deleteAllFromPost(int post_id){
+
+        return commentDao.deleteAllFromPost(post_id);
+    }
+
 }

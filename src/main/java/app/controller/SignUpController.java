@@ -35,8 +35,7 @@ public class SignUpController {
                          @RequestParam(value = "email") String email,
                          @RequestParam(value = "name") String name,
                          @RequestParam(value = "gender") boolean gender,
-                         @RequestParam(value = "dob") String dob,
-                         HttpSession session) {
+                         @RequestParam(value = "dob") String dob) {
         String result = "";
         Date dayOfBirth = null;
         if(dob != null){
@@ -57,8 +56,7 @@ public class SignUpController {
         UserDto token = userService.SignUp(user);
 
         if (token != null){
-            result = "redirect:/home";
-            session.setAttribute("user", token);
+            result = "redirect:/login";
         }
         else{
             System.out.println("lỗi");

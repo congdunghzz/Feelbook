@@ -3,7 +3,7 @@ let autho = document.getElementById('autho').value;
 
 let userId = document.getElementById("user-id").value;
 
-
+let btn_submitAvatar = document.getElementById('btn-submitAvatar');
 function fetchData(user_id) {
     console.log(user_id)
 
@@ -91,7 +91,6 @@ function fetchData(user_id) {
         .catch(err => console.log(err));
 
 }
-
 
 
 window.onload = function () {

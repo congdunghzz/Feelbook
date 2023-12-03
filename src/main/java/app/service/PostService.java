@@ -92,7 +92,7 @@ public class PostService {
     public String UpLoadImg(Post post, MultipartFile imgFile){
         String result = null;
         File ImgFile = new File("D:/exercise/Web/final/Feelbook/src/main/webapp/userResources/" + post.getUser_id() + "/post-img");
-        System.out.println(ImgFile.exists());
+
         if(!ImgFile.exists()){
             try{
                 ImgFile.mkdirs();

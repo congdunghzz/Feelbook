@@ -1,5 +1,6 @@
 package app.dao;
 
+import app.model.Post;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -26,6 +27,7 @@ public class UserDaoIml {
             return null;
         }
     }
+
     public User getById(int user_id){
         String sql = "SELECT * FROM user WHERE user_id = ?";
         try{
@@ -59,6 +61,20 @@ public class UserDaoIml {
         }catch (Exception e){
             System.out.println(e.getMessage());
             System.out.println(e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    public boolean setAvatar(int user_id, String path) {
+        String sql = "UPDATE user SET avatar = ? WHERE user_id = ?";
+        Object[] args = {path, user_id};
+        try{
+            System.out.println(sql + " " + args[0] + " " + args[1]);
+            jdbcTemplate.update(sql, args);
+            return true;
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            System.out.println(e.getCause());
             return false;
         }
     }

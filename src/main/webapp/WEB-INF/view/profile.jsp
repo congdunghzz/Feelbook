@@ -47,7 +47,12 @@
     <div id="profile" class="row">
         <div class="avatar col-lg-4">
             <c:set var="imgPath" value="${user.avatar}"/>
-            <img src="<c:out value='${imgPath}' />" alt="Avatar">
+            <img id="avatar" src="<c:out value='${imgPath}' />" alt="Avatar">
+            <br>
+            <form action="/Feelbook/api/user/setAvatar" method="post" enctype="multipart/form-data">
+                <input id="inputFile" type="file" name="imgFile" accept="image/png, image/jpeg, image/jpg, video/mp4"/>
+                <button id="btn-submitAvatar" value="submit">Set Avatar</button>
+            </form>
         </div>
         <div class="infor col-lg-6">
             <span>Name: ${user.name}</span>

@@ -16,7 +16,8 @@ public class ProfileController {
     @Autowired
     private UserService userService;
     @GetMapping
-    public String getProfile(@RequestParam(value = "user_id", required = false) Long user_id, HttpSession session, Model model){
+    public String getProfile(@RequestParam(value = "user_id", required = false) Long user_id,
+                             HttpSession session, Model model){
         String result = "";
         if (user_id == null) user_id = 0L;
         int id = user_id.intValue();

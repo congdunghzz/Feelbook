@@ -5,7 +5,14 @@ import app.model.DTO.UserDto;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.concurrent.TransferQueue;
 
@@ -84,4 +91,45 @@ public class UserService {
         }
         return result;
     }
+
+    public static String getFileExtension(String path) {
+        if (path == null) {
+            return "";
+        }
+
+        int dotIndex = path.lastIndexOf('.');
+        if (dotIndex > 0) {
+            return path.substring(dotIndex);
+        } else {
+            return "";
+        }
+    }
+
+    public String setAvatar(int user_id, MultipartFile inputFile){
+        String result = null;
+        File ImgFile = new File("D:/exercise/Web/final/Feelbook/src/main/webapp/userResources/" + user_id + "/Avatar");
+        if (!ImgFile.exists()) {
+            try {
+                ImgFile.mkdirs();
+                System.out.println("Created folder is name:" + ImgFile.getPath());
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                throw new IllegalArgumentException ("lỗi nhập file");
+            }
+        }
+
+        String fileExtension = getFileExtension(inputFile.getOriginalFilename());
+        String filename = "avatar_" + user_id + fileExtension;
+        Path path = Paths.get(ImgFile.getPath() + "/" + filename);
+
+        try {
+            Files.copy(inputFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        result = "/Feelbook/user-resources/" + user_id + "/Avatar/" + filename;
+        if (!userDao.setAvatar( user_id,result)) result = "error";
+        return result;
+    }
+
 }

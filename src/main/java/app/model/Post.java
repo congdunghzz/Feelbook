@@ -11,23 +11,31 @@ public class Post {
     private Timestamp create_at;
 
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "post_id=" + post_id +
-                ", content='" + content + '\'' +
-                ", create_at=" + create_at +
-                ", user_id=" + user_id +
-                ", post_img='" + post_img + '\'' +
-                '}';
-    }
-
     private int user_id;
 
 
     private String post_img;
+    private int likes;
+    private int comments;
 
+    public Post(int post_id, String content, Timestamp create_at, int user_id, String post_img, int likes, int comments) {
+        this.post_id = post_id;
+        this.content = content;
+        this.create_at = create_at;
+        this.user_id = user_id;
+        this.post_img = post_img;
+        this.likes = likes;
+        this.comments = comments;
+    }
 
+    public Post(String content, Timestamp create_at, int user_id, String post_img, int likes, int comments) {
+        this.content = content;
+        this.create_at = create_at;
+        this.user_id = user_id;
+        this.post_img = post_img;
+        this.likes = likes;
+        this.comments = comments;
+    }
 
     public Post(int post_id, String content, Timestamp create_at, int user_id, String post_img) {
         this.post_id = post_id;
@@ -102,5 +110,34 @@ public class Post {
     }
 
     public Post() {
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getComments() {
+        return comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "post_id=" + post_id +
+                ", content='" + content + '\'' +
+                ", create_at=" + create_at +
+                ", user_id=" + user_id +
+                ", post_img='" + post_img + '\'' +
+                ", likes=" + likes +
+                ", comments=" + comments +
+                '}';
     }
 }

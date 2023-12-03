@@ -31,7 +31,12 @@ public class PostDaoIml{
 
 
     public Post getById(int id){
-        String sql = "SELECT * FROM post WHERE post_id = ?";
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+                "\tFROM post AS ps\n" +
+                "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
+                "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
+                "\tWHERE ps.post_id = ? \n" +
+                "\tGROUP BY post_id";
         Post result;
         try{
             result = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Post.class), id);
@@ -46,7 +51,13 @@ public class PostDaoIml{
 
 
     public List<Post> getByName(String name) {
-        String sql = "SELECT * FROM post WHERE content LIKE ? ORDER BY create_at DESC";
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+                "\tFROM post AS ps\n" +
+                "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
+                "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
+                "\tWHERE ps.content LIKE ? \n" +
+                "\tGROUP BY post_id\n" +
+                "\tORDER BY ps.create_at DESC";
         try{
             List<Post> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), "%" + name + "%");
             return result;
@@ -58,7 +69,13 @@ public class PostDaoIml{
     }
 
     public List<Post> getByUserId(int user_id) {
-        String sql = "SELECT * FROM post WHERE user_id = ? ORDER BY create_at DESC";
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+                "\tFROM post AS ps\n" +
+                "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
+                "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
+                "\tWHERE ps.user_id = ? \n" +
+                "\tGROUP BY post_id\n" +
+                "\tORDER BY ps.create_at DESC";
         try{
             List<Post> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), user_id);
             return result;
@@ -70,7 +87,14 @@ public class PostDaoIml{
     }
 
     public List<Post> getByNamePerPage(String name, int currentPage, int numPerPage) {
-        String sql = "SELECT * FROM post WHERE content LIKE ? ORDER BY create_at DESC LIMIT ?, ? ";
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+                "\tFROM post AS ps\n" +
+                "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
+                "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
+                "\tWHERE ps.content LIKE ?" +
+                "\tGROUP BY post_id\n" +
+                "\tORDER BY ps.create_at DESC\n" +
+                "\tLIMIT ?, ? ";
         try{
             Object[] args = {"%" + name + "%", currentPage, numPerPage};
             List<Post> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), args);

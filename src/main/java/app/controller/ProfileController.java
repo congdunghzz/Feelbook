@@ -30,7 +30,7 @@ public class ProfileController {
                 isAutho = true;
             }
             UserDto user = userService.getProfile(id);
-            model.addAttribute("user", user);
+            model.addAttribute("    user", user);
             model.addAttribute("autho", isAutho);
             result = "profile.jsp";
         }

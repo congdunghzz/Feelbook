@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TransferQueue;
 
@@ -128,8 +129,38 @@ public class UserService {
             System.out.println(e.getMessage());
         }
         result = "/Feelbook/user-resources/" + user_id + "/Avatar/" + filename;
-        if (!userDao.setAvatar( user_id,result)) result = "error";
+        if (!userDao.setAvatar(user_id,result)) result = "error";
         return result;
     }
 
+    public String updateInfor(UserDto user){
+         UserDto db_user = getProfile(user.getUser_id());
+         if (db_user == null){
+             return "Error, you ara not identified";
+         }else {
+             userDao.editInformation(user);
+             return "Your information has been updated successfully";
+         }
+    }
+
+
+    public List<UserDto> getFriends(int user_id){
+        List<UserDto> result = new ArrayList<>();
+        List<User> db_users = userDao.getFriends(user_id);
+        if (db_users == null) return null;
+        for (User one: db_users) {
+            result.add(new UserDto(one));
+        }
+        return result;
+    }
+
+    public List<UserDto> getFriendsWaitingForRequest(int user_id){
+        List<UserDto> result = new ArrayList<>();
+        List<User> db_users = userDao.getFriendsWaitingForRequest(user_id);
+        if (db_users == null) return null;
+        for (User one: db_users) {
+            result.add(new UserDto(one));
+        }
+        return result;
+    }
 }

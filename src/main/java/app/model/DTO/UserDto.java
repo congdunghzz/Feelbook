@@ -3,6 +3,7 @@ package app.model.DTO;
 import app.model.User;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class UserDto {
     private int user_id;
@@ -93,4 +94,13 @@ public class UserDto {
                 ", username='" + username + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return user_id == userDto.user_id && gender == userDto.gender && Objects.equals(name, userDto.name) && Objects.equals(dob, userDto.dob) && Objects.equals(user_email, userDto.user_email) && Objects.equals(username, userDto.username);
+    }
+
 }

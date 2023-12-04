@@ -2,15 +2,20 @@ package app.controller.api;
 
 import app.model.DTO.CommentDto;
 import app.model.DTO.UserDto;
+import app.model.User;
 import app.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +41,7 @@ public class UserApi {
 
     @PostMapping("/setAvatar")
 
-    public String EditComment(@RequestParam(value = "imgFile", required = false) MultipartFile imgFile,
+    public String setAvatar(@RequestParam(value = "imgFile", required = false) MultipartFile imgFile,
                                            HttpSession session) throws IOException {
         String result = "redirect:/profile";
         UserDto token = (UserDto) session.getAttribute("user");
@@ -44,15 +49,46 @@ public class UserApi {
             return "error.jsp";
         }
         if (token == null) {
-            System.out.println("API, you are not authorized" );
             return "authorization.jsp";
         } else {
-            System.out.println(imgFile.getOriginalFilename());
             int user_id = token.getUser_id();
             String path = userService.setAvatar(user_id, imgFile);
-            System.out.println(path);
         }
         return result;
     }
+
+    @PostMapping("/edit")
+    public String editInfor(@RequestParam(value = "email", required = false) String email,
+                            @RequestParam(value = "name", required = false) String name,
+                            @RequestParam(value = "gender", required = false) boolean gender,
+                            @RequestParam(value = "dob", required = false) String dob,
+                            HttpSession session, Model model){
+        UserDto token = (UserDto) session.getAttribute("user");
+        Date dayOfBirth;
+
+        if (token == null){
+            return "redirect:/login";
+        }else {
+            if(dob != null){
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                java.util.Date date;
+                try {
+                    date = format.parse(dob);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                dayOfBirth = new Date(date.getTime());
+            }else {
+                return "error.jsp";
+            }
+            UserDto newInfor = new UserDto(new User(token.getUser_id(), name, gender,dayOfBirth, email));
+            String result = userService.updateInfor(newInfor);
+            model.addAttribute("message", result);
+            return "redirect:/profile";
+        }
+    }
+
 
 }

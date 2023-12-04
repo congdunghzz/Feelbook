@@ -1,5 +1,6 @@
 package app.dao;
 
+import app.model.DTO.UserDto;
 import app.model.Post;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,6 @@ public class UserDaoIml {
         String sql = "UPDATE user SET avatar = ? WHERE user_id = ?";
         Object[] args = {path, user_id};
         try{
-            System.out.println(sql + " " + args[0] + " " + args[1]);
             jdbcTemplate.update(sql, args);
             return true;
         }catch (Exception e){
@@ -78,4 +78,42 @@ public class UserDaoIml {
             return false;
         }
     }
+
+    public boolean editInformation(UserDto user){
+        String sql = "UPDATE user SET name = ?, gender = ?, dob = ?, user_email = ? WHERE user_id = ?";
+        Object[] args = {user.getName(), user.isGender(), user.getDob(),user.getUser_email(), user.getUser_email()};
+        try {
+            jdbcTemplate.update(sql, args);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public List<User> getFriends (int user_id){
+        String sql = "SELECT * FROM user WHERE user_id IN " +
+                "(SELECT friend_id FROM friendship WHERE user_id = ? AND friendship_status = 1)";
+        try{
+            List<User> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), user_id);
+            return result;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
+            return null;
+        }
+    }
+    public List<User> getFriendsWaitingForRequest (int user_id){
+        String sql = "SELECT * FROM user WHERE user_id IN " +
+                "(SELECT friend_id FROM friendship WHERE user_id = ? AND friendship_status = 0)";
+        try{
+            List<User> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), user_id);
+            return result;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
+            return null;
+        }
+    }
+
 }

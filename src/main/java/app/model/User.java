@@ -51,6 +51,14 @@ public class User {
         this.password = password;
     }
 
+    public User(int user_id, String name, boolean gender, Date dob, String user_email) {
+        this.user_id = user_id;
+        this.name = name;
+        this.gender = gender;
+        this.dob = dob;
+        this.user_email = user_email;
+    }
+
     public int getUser_id() {
         return user_id;
     }

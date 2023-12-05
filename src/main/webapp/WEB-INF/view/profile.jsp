@@ -49,10 +49,6 @@
             <c:set var="imgPath" value="${user.avatar}"/>
             <img id="avatar" src="<c:out value='${imgPath}' />" alt="Avatar">
             <br>
-            <form action="/Feelbook/api/user/setAvatar" method="post" enctype="multipart/form-data">
-                <input id="inputFile" type="file" name="imgFile" accept="image/png, image/jpeg, image/jpg, video/mp4"/>
-                <button id="btn-submitAvatar" value="submit">Set Avatar</button>
-            </form>
         </div>
         <div class="infor col-lg-6">
             <span>Name: ${user.name}</span>
@@ -75,9 +71,12 @@
             <span>Email: ${user.user_email}</span>
         </div>
         <hr>
-        `;
-    </div>
 
+    </div>
+    <form action="/Feelbook/api/user/setAvatar" method="post" enctype="multipart/form-data">
+        <input id="inputFile" type="file" name="imgFile" accept="image/png, image/jpeg, image/jpg, video/mp4"/>
+        <button id="btn-submitAvatar" value="submit">Set Avatar</button>
+    </form>
     <div class="row">
         <form action="/Feelbook/post" method="post" enctype="multipart/form-data">
             <input type="text" name="content">

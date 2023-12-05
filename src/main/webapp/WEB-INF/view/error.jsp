@@ -9,6 +9,6 @@
 </head>
 <body>
     <h2>ERROR</h2>
-    <span>Sone thing wrong have </span>
+    <span>Something went wrong </span>
 </body>
 </html>

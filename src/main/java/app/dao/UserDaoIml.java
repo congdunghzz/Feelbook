@@ -81,9 +81,10 @@ public class UserDaoIml {
 
     public boolean editInformation(UserDto user){
         String sql = "UPDATE user SET name = ?, gender = ?, dob = ?, user_email = ? WHERE user_id = ?";
-        Object[] args = {user.getName(), user.isGender(), user.getDob(),user.getUser_email(), user.getUser_email()};
+        Object[] args = {user.getName(), user.isGender(), user.getDob(),user.getUser_email(), user.getUser_id()};
         try {
-            jdbcTemplate.update(sql, args);
+            int i = jdbcTemplate.update(sql, args);
+            System.out.println("DAO:  amount of record updated is " + i);
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -105,7 +106,7 @@ public class UserDaoIml {
     }
     public List<User> getFriendsWaitingForRequest (int user_id){
         String sql = "SELECT * FROM user WHERE user_id IN " +
-                "(SELECT friend_id FROM friendship WHERE user_id = ? AND friendship_status = 0)";
+                "(SELECT user_id FROM friendship WHERE friend_id = ? AND friendship_status = 0)";
         try{
             List<User> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), user_id);
             return result;

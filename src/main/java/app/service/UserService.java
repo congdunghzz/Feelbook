@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TransferQueue;
 
 
@@ -120,7 +121,7 @@ public class UserService {
         }
 
         String fileExtension = getFileExtension(inputFile.getOriginalFilename());
-        String filename = "avatar_" + user_id + fileExtension;
+        String filename = "avatar_" + user_id +"_"+ UUID.randomUUID().toString()+ fileExtension;
         Path path = Paths.get(ImgFile.getPath() + "/" + filename);
 
         try {
@@ -138,8 +139,9 @@ public class UserService {
          if (db_user == null){
              return "Error, you ara not identified";
          }else {
-             userDao.editInformation(user);
-             return "Your information has been updated successfully";
+             if(userDao.editInformation(user))
+                return "Your information has been updated successfully";
+             return "Error, you ara not identified";
          }
     }
 
@@ -163,4 +165,5 @@ public class UserService {
         }
         return result;
     }
+
 }

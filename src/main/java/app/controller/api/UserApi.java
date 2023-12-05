@@ -4,6 +4,7 @@ import app.model.DTO.CommentDto;
 import app.model.DTO.UserDto;
 import app.model.User;
 import app.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class UserApi {
     }
 
     @GetMapping
+    @ResponseBody
     public List<UserDto> Search(@RequestParam("name") String name){
         if (name == null) name = "";
         return userService.getByName(name);
@@ -85,10 +87,38 @@ public class UserApi {
             }
             UserDto newInfor = new UserDto(new User(token.getUser_id(), name, gender,dayOfBirth, email));
             String result = userService.updateInfor(newInfor);
+            System.out.println(result);
             model.addAttribute("message", result);
             return "redirect:/profile";
         }
     }
 
+    @GetMapping("friend")
+    @ResponseBody
+    public List<UserDto> getListFriend (@RequestParam(value = "user_id", required = false) Integer user_id,
+                                        HttpSession session){
 
+        List<UserDto> result;
+        UserDto token = (UserDto) session.getAttribute("user");
+        if (user_id == null) user_id = token.getUser_id();
+        result = userService.getFriends(user_id);
+        return result;
+    }
+
+    @GetMapping("requestFriend")
+    @ResponseBody
+    public List<UserDto> getListRequestFriend (HttpSession session, HttpServletResponse response) throws IOException {
+
+        List<UserDto> result;
+        UserDto token = (UserDto) session.getAttribute("user");
+        if (token == null){
+            Map<String, String> message = new HashMap<>();
+            message.put("error", "you are not authorized");
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().println(mapper.writeValueAsString(message));
+            return null;
+        }
+        result = userService.getFriendsWaitingForRequest(token.getUser_id());
+        return result;
+    }
 }

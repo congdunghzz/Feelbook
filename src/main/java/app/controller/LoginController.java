@@ -35,7 +35,7 @@ public class LoginController {
             session.setAttribute("user", token);
 
         }
-        else result = "redirect:/login2";
+        else result = "redirect:/login";
 
         return result;
     }

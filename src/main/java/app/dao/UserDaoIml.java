@@ -104,6 +104,19 @@ public class UserDaoIml {
             return null;
         }
     }
+
+    public List<User> getFriendsLimit (int user_id){
+        String sql = "SELECT * FROM user WHERE user_id IN " +
+                "(SELECT friend_id FROM friendship WHERE user_id = ? AND friendship_status = 1) LIMIT 0, 6";
+        try{
+            List<User> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), user_id);
+            return result;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
+            return null;
+        }
+    }
     public List<User> getFriendsWaitingForRequest (int user_id){
         String sql = "SELECT * FROM user WHERE user_id IN " +
                 "(SELECT user_id FROM friendship WHERE friend_id = ? AND friendship_status = 0)";

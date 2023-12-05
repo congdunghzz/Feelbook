@@ -6,14 +6,19 @@ import app.model.Post;
 import app.model.User;
 import app.service.PostService;
 import app.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,28 +67,33 @@ public class PostApi {
     @ResponseBody
     public PostDto postNews(@RequestParam(value = "content") String content,
                             @RequestParam(value = "post_img", required = false) MultipartFile post_img,
-                            HttpSession session){
+                            HttpSession session, HttpServletResponse response) throws IOException {
 
-        PostDto result;
         UserDto token = (UserDto) session.getAttribute("user");
-        if (token == null) return null;
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> message = new HashMap<>();
+        if (token == null){
+            message.put("message", "Be Not Authorized");
+            response.getWriter().println(mapper.writeValueAsString(message));
+            return null;
+        }
 
         long currentTimeMillis = System.currentTimeMillis();
         Timestamp timeCreate = new Timestamp(currentTimeMillis);
         Post post = new Post(content,timeCreate,token.getUser_id());
         PostDto newPost = postService.PostNews(post);
         if (newPost != null){
-            result = newPost;
-            if (post_img != null){
+
+            if (!post_img.isEmpty()){
+                System.out.println(post_img);
                 String path = postService.UpLoadImg(newPost.getPost(), post_img);
-                System.out.printf(path);
+
+            }else{
+                System.out.println("Controller: không tìm thấy file");
             }
-        }else{
-            System.out.println("không tìm thấy file");
-            result = null;
         }
 
-        return result;
+        return newPost;
     }
 
     @DeleteMapping("/delete")

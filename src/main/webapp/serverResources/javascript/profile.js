@@ -94,5 +94,5 @@ function fetchData(user_id) {
 
 
 window.onload = function () {
-    fetchData( userId);
+    fetchData(userId);
 };

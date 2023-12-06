@@ -81,4 +81,20 @@ public class FriendShipApi {
 
         return result;
     }
+
+    @PostMapping("cancel")
+    @ResponseBody
+    public Map<String, String> Cancel(@RequestParam(value = "friend_id") Integer friend_id, HttpSession session) {
+        Map<String, String> result = new HashMap<>();
+        UserDto token = (UserDto) session.getAttribute("user");
+        if (token == null) {
+            result.put("message", "error");
+            return result;
+        }
+        if (friendShipService.CancelRequest(token.getUser_id(), friend_id)) {
+            result.put("message", "successfully");
+        } else result.put("message", "error");
+
+        return result;
+    }
 }

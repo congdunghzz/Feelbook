@@ -10,9 +10,7 @@ function Like(img, post_id, isLike) {
         .then(response => response.json())
         .then(date => {
             if (date.message === "successfully") {
-                console.log(img.nextElementSibling.textContent);
                 img.nextElementSibling.textContent = parseInt(img.nextElementSibling.textContent) + count;
-                console.log(img.nextElementSibling.textContent);
                 return;
 
             } else {
@@ -117,7 +115,7 @@ function loadPosts(key, page) {
                                 <span id="likeCount">${object.post.likes}</span>
                             </div>
                         </div>
-                        <div>
+                        <div id="commentButton">
                             <img src="/Feelbook/server-resources/img/image/comments.png"> ${object.post.comments}
                         </div>
                     </div>

@@ -78,7 +78,9 @@
             </div>
         </div>
     </nav>
+
     <div class="container">
+
         <div class="main-content" id="posts">
 
         </div>
@@ -92,7 +94,7 @@
     </div>
 </div>
 
-<div class="modal"></div>
+<div class="modal-comment"></div>
     <script src="/Feelbook/server-resources/javascript/homepage.js"></script>
 </body>
 </html>

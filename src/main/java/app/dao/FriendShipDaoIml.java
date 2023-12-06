@@ -50,10 +50,10 @@ public class FriendShipDaoIml {
     public int getStatus (int user_id, int friend_id){
         String sql = "SELECT friendship_status FROM friendship WHERE user_id = ? AND friend_id = ?";
         Object[] args = {user_id, friend_id};
-
         try {
             return jdbcTemplate.queryForObject(sql, Integer.class, args);
         }catch (Exception e){
+
             System.out.println("error from getStatus in FriendShipDao" +e.getMessage());
             return -1;
         }

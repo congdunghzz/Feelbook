@@ -44,7 +44,7 @@ function getFriendList(user_id){
     fetch(`http://localhost:8080/Feelbook/api/user/friend?user_id=${user_id}`,)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+
             let htmlCode = '';
             var i = 1;
             data.forEach(friend => {
@@ -125,7 +125,7 @@ function loadPostByUser(user_id){
                                 <span id="likeCount">${object.post.likes}</span>
                             </div>
                         </div>
-                        <div>
+                        <div id="commentButton">
                             <img src="/Feelbook/server-resources/img/image/comments.png"> ${object.post.comments}
                         </div>
                     </div>
@@ -144,18 +144,104 @@ function Like(img, post_id, isLike) {
         .then(response => response.json())
         .then(date => {
             if (date.message === "successfully") {
-                console.log(img.nextElementSibling.textContent);
+
                 img.nextElementSibling.textContent = parseInt(img.nextElementSibling.textContent) + count;
-                console.log(img.nextElementSibling.textContent);
+
                 return;
 
             } else {
-                console.log('sẽ unlike');
+
                 Like(img, post_id,'unlike');
             }
         })
         .catch(err => console.log(err))
 }
+
+function Cancel(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/cancel?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="send-request" onclick="AddFriend(${friend_id})">Add friend</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function Accept(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/accept?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="unfriend" class="send-request" onclick="UnFriend(${friend_id})">Unfriend</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function UnFriend(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/unFriend?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="send-request" onclick="AddFriend(${friend_id})">Add friend</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function AddFriend(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/send?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="cancel" class="btn1" onclick="Cancel(${friend_id})">Cancel</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function Reject(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/reject?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="send-request" onclick="AddFriend(${friend_id})">Add friend</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
 window.onload = function (){
     getFriendList(userId);
     loadPostByUser(userId);

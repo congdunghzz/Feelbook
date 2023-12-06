@@ -295,3 +295,7 @@ h6{
     margin-left: 600px;
     margin-top: 0;
 }
+.send-request{
+    background-color: #1876f2;
+    color: white;
+}

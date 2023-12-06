@@ -545,6 +545,12 @@ right: 6px;
   background: #ccc;
 }
 
+#likeButton:hover{
+  cursor: pointer;
+}
+#commentButton:hover{
+  cursor: pointer;
+}
       /*comment modal*/
 .modal{
   display: block;

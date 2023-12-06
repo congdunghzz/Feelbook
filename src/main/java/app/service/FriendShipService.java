@@ -49,11 +49,27 @@ public class FriendShipService {
         }
     }
 
+    public boolean CancelRequest(int user_id, int friend_id){
+        int db_check = friendShipDao.getStatus(user_id,friend_id);
+        if (db_check != 0 ) return false;
+        if (user_id == friend_id){
+            return false;
+        }else {
+            return friendShipDao.delete(user_id,friend_id);
+        }
+    }
+
+
     public int checkFriendStatus(int user_id, int friend_id){
+        int result = -1;
         if (user_id == friend_id){
             return -2;
         }else {
-            return friendShipDao.getStatus(user_id, friend_id);
+            result =  friendShipDao.getStatus(user_id, friend_id);
+            if (result == -1){
+                if (friendShipDao.getStatus(friend_id, user_id) == 0) result = 2;
+            }
+            return result;
         }
     }
 }

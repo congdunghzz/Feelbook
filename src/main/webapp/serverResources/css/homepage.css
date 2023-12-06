@@ -547,6 +547,7 @@ right: 6px;
 
       /*comment modal*/
 .modal{
+  display: block;
   position: fixed;
   top: 0;
   right: 0;

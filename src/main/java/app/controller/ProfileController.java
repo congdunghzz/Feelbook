@@ -32,6 +32,7 @@ public class ProfileController {
             UserDto user = userService.getProfile(id);
             model.addAttribute("user", user);
             model.addAttribute("autho", isAutho);
+            model.addAttribute("you", token);
             result = "profile2.jsp";
         }
         return result;

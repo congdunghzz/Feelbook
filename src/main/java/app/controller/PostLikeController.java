@@ -44,16 +44,23 @@ public class PostLikeController {
     }
 
     @GetMapping("/unlike")
-    public Map<String, String> UnLike(@RequestParam(value = "post-id", required = false) Long post_id, HttpSession session){
+    public Map<String, String> UnLike(@RequestParam(value = "post_id", required = false) Long post_id, HttpSession session){
         Map<String, String> result = new HashMap<>();
         UserDto token = (UserDto) session.getAttribute("user");
         if (token == null || post_id == null){
             result.put("message", "error");
+            System.out.println(token);
+            System.out.println(post_id);
+            System.out.println("Controller: token not be found or post_id is null");
             return result;
         }
         if (postService.UnLike(post_id.intValue(), token.getUser_id())){
+            System.out.println("controller : đang unlike");
             result.put("message", "successfully");
-        }else result.put("message", "error");
+        }else{
+            System.out.println("Controller: hàm unlike return false");
+            result.put("message", "error");
+        }
         return result;
     }
 }

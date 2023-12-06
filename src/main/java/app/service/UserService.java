@@ -67,7 +67,7 @@ public class UserService {
                 if(userDao.add(user)){
                     user = userDao.getByUsername(user.getUsername());
                     result = new UserDto(user);
-
+                    userDao.setAvatar(result.getUser_id(), "https://antimatter.vn/wp-content/uploads/2022/07/avatar-trang-fb-nam.jpeg");
                 }
             }
         }

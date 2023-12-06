@@ -36,7 +36,7 @@ public class HomeController {
         String result = "";
         if(user != null){
             model.addAttribute("user", user);
-            result = "home.jsp";
+            result = "homepage.jsp";
         }else {
             result = "redirect:/login";
         }

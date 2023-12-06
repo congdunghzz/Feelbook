@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/Feelbook/server-resources/css/profile.css">
+        <link rel="stylesheet" href="/Feelbook/server-resources/css/homepage.css">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Profile</title>
@@ -38,7 +39,7 @@
                 <div class="col-md-3">
                     <div class="profile-left">
                         <div class="user-info">
-                            <a href="#"><img src="${user.avatar}" class="profile-picture">${user.name}/</a>
+                            <img src="${user.avatar}" class="profile-picture">${user.name}
                         </div>
                         <div class="select">
                             <a href="/Feelbook/home"><img src="/Feelbook/server-resources/img/image/home.svg" onclick="">Home</a>
@@ -56,29 +57,8 @@
                             <a href="#">See all friends</a>
                         </div>
                         <div class="images" id="list-friend">
-                            <div class="images-div">
-                                <img id="image-1" src="/Feelbook/server-resources/img/image/friend-1.jpg">
-                                <p>
-                                    <a href="#">Nhat Vu</a>
-                                </p>
-                            </div>
-                            <div class="images-div">
-                                <img id="image-2" src="/Feelbook/server-resources/img/image/friend-2.jpg">
-                                <p>
-                                    <a href="#">Thuy Nga</a>
-                                </p>
-                            </div>
-                            <div class="images-div">
-                                <img id="image-3" src="/Feelbook/server-resources/img/image/friend-3.jpg">
-                                <p>
-                                    <a href="#">Van Thanh</a>
-                                </p>
-                            </div>
 
 
-
-                            
-                            
                         </div>
                     </div>
                 </div>
@@ -92,21 +72,25 @@
                     <div class="id-section">
                         <div class="square">
                             <img src="${user.avatar}" class="avatar" style="height: 100px; width: 100px">4
-                            <form action="#">
-                                <div class="photo-upload">
-                                    <div class="post-video">
-                                        <p>
-                                            <label for="fileInput">
-                                                <img id="video" src="/Feelbook/server-resources/img/image/photo.svg">
-                                                Upload your avatar
-                                            </label>
-                                            <input type="file" id="fileInput" style="display: none;" accept="image/*, video/*" onchange="handleFileSelect(event)">
-                                            <input type="button" value="submit" class="">
 
-                                        </p>
-                                    </div>
+                            <div class="photo-upload">
+                                <div class="post-video">
+
+                                    <form action="/Feelbook/api/user/setAvatar" method="post"
+                                          enctype="multipart/form-data">
+                                        <label for="imgFile">
+                                            <img id="video" src="/Feelbook/server-resources/img/image/photo.svg">
+                                            Upload your avatar
+                                        </label>
+
+                                        <input type="file" id="imgFile" style="display: none;"
+                                               accept="image/png, image/jpeg, image/jpg" name="imgFile">
+                                        <input type="submit" value="submit" class="">
+                                    </form>
+
                                 </div>
-                            </form>
+                            </div>
+
 
                             <div class="id">
                                 <!--icon edit, share-->

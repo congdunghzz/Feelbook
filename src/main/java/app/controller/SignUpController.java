@@ -25,7 +25,7 @@ public class SignUpController {
     public String getSignUpPage(){
 
         String result = "";
-        result = "signup.jsp";
+        result = "register.jsp";
         return result;
     }
 

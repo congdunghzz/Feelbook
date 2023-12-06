@@ -171,7 +171,9 @@ public class PostService {
         if (post != null){
             if(likeDao.delete(post_id,user_id)) {
                 result = true;
+                System.out.println("Service = true");
             }
+            System.out.println("Service = false");
         }
         return result;
     }

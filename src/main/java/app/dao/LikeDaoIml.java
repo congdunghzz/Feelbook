@@ -50,7 +50,7 @@ public class LikeDaoIml {
             jdbcTemplate.update(sql, args);
             return true;
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("error from unlike DAO "+e.getMessage());
             return false;
         }
     }

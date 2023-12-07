@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
     <link rel="stylesheet" href="/Feelbook/server-resources/css/homepage.css">
-   <%-- <link rel="stylesheet" href="/Feelbook/server-resources/css/profile.css">--%>
+    <link rel="stylesheet" href="/Feelbook/server-resources/css/profile.css">
 
     <script src="https://kit.fontawesome.com/09bba422f6.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -62,12 +62,66 @@
         </nav>
 
     </nav>
+    <div id="commentModal" class="comment-modal">
+        <div class="comment-modal-content">
+            <div class="modal-container" id="comments">
 
+                <!-- Container for comments -->
+                <div class="comments-container" id="commentsContainer">
+                    <!-- Comments will be added here -->
+                    <div class="profile-img">
+                        <img id="Avatar" src="${user.avatar}">
+                        <div class="wrapper-comment">
+                            <div class="content">
+                                <h4>Name</h4>
+                                <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="comments-container" id="commentsContainer">
+                    <!-- Comments will be added here -->
+                    <div class="profile-img">
+                        <img id="Avatar" src="${user.avatar}">
+                        <div class="content">
+                            <h4>Name</h4>
+                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comments-container" id="commentsContainer">
+                    <!-- Comments will be added here -->
+                    <div class="profile-img">
+                        <img id="Avatar" src="${user.avatar}">
+                        <div class="content">
+                            <h4>Name</h4>
+                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="close-modal" onclick="closeCommentModal()">&times;</span>
+            <div class="wrapper-img">
+                <div class="profile-img">
+                    <img id="Avatar" src="${user.avatar}">
+                </div>
+                <div class="comment-input">
+
+                    <input  id="commentText" rows="2" placeholder="Type your comment here"></input>
+                </div>
+                <div class="submit-btn">
+                    <button onclick="submitComment()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
 
         <div class="main-content" id="posts">
 
         </div>
+
         <div class="right-sidebar">
             <h5 class="sugget">REQUESTS</h5>
             <div class="friend-request-container" id="request-list">

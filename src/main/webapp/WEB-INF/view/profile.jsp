@@ -32,7 +32,6 @@
             </div>
        </div> 
        <br>
-        <div class="modal"></div>
        <!--Profile-->
        <div class="profile-section">
             <div class="row">
@@ -213,7 +212,7 @@
 
                     <div id="commentModal" class="comment-modal">
                         <div class="comment-modal-content">
-                            <div class="post-container">
+                            <div class="modal-container" id="comments">
 
                                 <!-- Container for comments -->
                                 <div class="comments-container" id="commentsContainer">

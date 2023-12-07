@@ -31,7 +31,7 @@ public class PostDaoIml{
 
 
     public Post getById(int id){
-        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comments\n" +
                 "\tFROM post AS ps\n" +
                 "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
                 "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
@@ -51,7 +51,7 @@ public class PostDaoIml{
 
 
     public List<Post> getByName(String name) {
-        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comments\n" +
                 "\tFROM post AS ps\n" +
                 "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
                 "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
@@ -69,7 +69,7 @@ public class PostDaoIml{
     }
 
     public List<Post> getByUserId(int user_id) {
-        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comments\n" +
                 "\tFROM post AS ps\n" +
                 "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
                 "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +
@@ -87,7 +87,7 @@ public class PostDaoIml{
     }
 
     public List<Post> getByNamePerPage(String name, int currentPage, int numPerPage) {
-        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comment\n" +
+        String sql = "SELECT ps.*, COUNT(pl.post_id) AS likes, COUNT(DISTINCT  cm.comment_id) AS comments\n" +
                 "\tFROM post AS ps\n" +
                 "\tLEFT JOIN post_like AS pl ON  ps.post_id = pl.post_id \n" +
                 "\tLEFT JOIN comment AS cm ON ps.post_id = cm.post_id\n" +

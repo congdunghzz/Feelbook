@@ -115,7 +115,7 @@ function loadPosts(key, page) {
                                 <span id="likeCount">${object.post.likes}</span>
                             </div>
                         </div>
-                        <div id="commentButton">
+                        <div id="commentButton" onclick="openCommentModal(${object.post.post_id})">
                             <img src="/Feelbook/server-resources/img/image/comments.png"> ${object.post.comments}
                         </div>
                     </div>
@@ -128,6 +128,41 @@ function loadPosts(key, page) {
         })
 }
 
+
+function loadComments(post_id){
+    let commentContainer = document.getElementById('comments');
+    fetch(`http://localhost:8080/Feelbook/api/comment?post_id=${post_id}`)
+        .then(response => response.json())
+        .then(data => {
+            var htmlCode = '';
+            data.forEach(item => {
+                htmlCode += `<div class="comments-container" id="commentsContainer">
+                    <!-- Comments will be added here -->
+                    <div class="profile-img">
+                        <img id="Avatar" src="${item.user.avatar}">
+                        <div class="wrapper-comment">
+                            <div class="content">
+                                <h4>${item.user.name}</h4>
+                                <p class="comment-content">${item.comment.content}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>`;
+            })
+            commentContainer.innerHTML = htmlCode;
+        })
+}
+
+function openCommentModal(post_id) {
+    document.getElementById('commentModal').style.display = 'flex';
+    loadComments(post_id);
+}
+
+
+function closeCommentModal() {
+    document.getElementById('commentModal').style.display = 'none';
+}
 function Search() {
     keyword = document.querySelector('input[name="key"]').value;
     document.getElementById('posts').innerHTML ='';

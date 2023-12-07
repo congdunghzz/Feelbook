@@ -38,7 +38,8 @@ public class ProfileController {
             UserDto user = userService.getProfile(id);
             model.addAttribute("user", user);
             model.addAttribute("autho", isAutho);
-            model.addAttribute("you", token);
+            UserDto you = userService.getProfile(token.getUser_id());
+            model.addAttribute("you", you);
 
             model.addAttribute("friendStatus", checkFriendShip);
             result = "profile.jsp";

@@ -60,23 +60,7 @@
                 </div>
             </div>
         </nav>
-        <div class="settings-menu">
-            <div id="dark-btn">
-                <span></span>
-            </div>
-            <div class="settings-menu-iner">
-                <div class="user-profile">
-                    <img src="/serverResources/img/profile-pic.png">
-                    <div>
-                        <p>Le Cong Dung</p>
-                        <a href="#">See your profile</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="user-profile">
-                </div>
-            </div>
-        </div>
+
     </nav>
 
     <div class="container">

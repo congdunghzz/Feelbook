@@ -184,6 +184,88 @@
                     <div class="posted" id="posts">
 
                     </div>
+                          <%--  edit info in here--%>
+                    <div id="editInfoModal" class="edit-info-modal comment-modal">
+                        <div class="comment-modal-content">
+                            <span class="close-modal" onclick="closeEditInfoModal()">&times;</span>
+                            <h3 align="center">Edit your information</h3>
+                            <hr>
+                            <form action="/Feelbook/api/user/edit" method="post">
+                                <div class="comment-input">
+                                <input type="text" name="name" value="${you.name}">
+                                <br>
+                                <input type="email" name="email" value="${you.user_email}">
+                                <br>
+                                <input type="date" name="dob" value="${you.dob}">
+                                <br>
+                                </div>
+                                <br>
+                                <label for="">Gender</label>
+
+                                <input name="gender" type="radio" value="true" />Nam
+
+                                <input name="gender" type="radio" value="false" />Nữ
+                                <br>
+                                <button class="send-request" type="submit">Confirm</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="commentModal" class="comment-modal">
+                        <div class="comment-modal-content">
+                            <div class="post-container">
+
+                                <!-- Container for comments -->
+                                <div class="comments-container" id="commentsContainer">
+                                    <!-- Comments will be added here -->
+                                    <div class="profile-img">
+                                        <img id="Avatar" src="${you.avatar}">
+                                        <div class="wrapper-comment">
+                                            <div class="content">
+                                                <h4>Name</h4>
+                                                <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="comments-container" id="commentsContainer">
+                                    <!-- Comments will be added here -->
+                                    <div class="profile-img">
+                                        <img id="Avatar" src="${you.avatar}">
+                                        <div class="content">
+                                            <h4>Name</h4>
+                                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comments-container" id="commentsContainer">
+                                    <!-- Comments will be added here -->
+                                    <div class="profile-img">
+                                        <img id="Avatar" src="${you.avatar}">
+                                        <div class="content">
+                                            <h4>Name</h4>
+                                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="close-modal" onclick="closeCommentModal()">&times;</span>
+                            <div class="wrapper-img">
+                                <div class="profile-img">
+                                    <img id="Avatar" src="${you.avatar}">
+                                </div>
+                                <div class="comment-input">
+
+                                    <input  id="commentText" rows="2" placeholder="Type your comment here"></input>
+                                </div>
+                                <div class="submit-btn">
+                                    <button onclick="submitComment()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
        </div>

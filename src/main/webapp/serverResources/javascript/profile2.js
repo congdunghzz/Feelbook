@@ -12,14 +12,12 @@ function handleLogout(){
     console.log('Logout botton clicked');
 }
 // Function to handle the edit icon click
-function openEditModal() {
-    document.getElementById('editModal').style.display = 'block';
-}
 
-// Function to handle the share icon click
-function handleShareClick() {
-    console.log('Share icon clicked');
-}
+
+// Function to handle the Edit icon click
+
+
+
 
 // Function to submit the edit form
 function submitEditForm() {
@@ -125,7 +123,7 @@ function loadPostByUser(user_id){
                                 <span id="likeCount">${object.post.likes}</span>
                             </div>
                         </div>
-                        <div id="commentButton">
+                        <div id="commentButton" onclick="openCommentModal()">
                             <img src="/Feelbook/server-resources/img/image/comments.png"> ${object.post.comments}
                         </div>
                     </div>
@@ -242,6 +240,26 @@ function Reject(friend_id){
         })
 }
 
+
+// comment modal
+function openCommentModal() {
+    document.getElementById('commentModal').style.display = 'flex';
+}
+
+
+function closeCommentModal() {
+    document.getElementById('commentModal').style.display = 'none';
+}
+// edit modal
+function handleEditClick () {
+    openEditInfoModal();
+}
+function openEditInfoModal(){
+    document.getElementById('editInfoModal').style.display = 'flex';
+}
+function closeEditInfoModal() {
+    document.getElementById('editInfoModal').style.display = 'none';
+}
 window.onload = function (){
     getFriendList(userId);
     loadPostByUser(userId);

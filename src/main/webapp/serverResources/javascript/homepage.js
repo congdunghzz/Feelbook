@@ -42,9 +42,9 @@ function loadRequestList() {
                         <div class="overlap-img">
                             <small>${item.user_email}</small>
                         </div>
-                        <div class="requests-btns">
-                            <button type="submit" class="btn1">Accept</button>
-                            <button type="submit" class="btn2">Reject</button>
+                        <div class="requests-btns" id="friend-status">
+                            <button type="submit" class="btn1" onclick="Accept(${item.user_id})">Accept</button>
+                            <button type="submit" class="btn2" onclick="Reject(${item.user_id})">Reject</button>
                         </div>
                     </div>
                 </div>`;
@@ -130,15 +130,102 @@ function loadPosts(key, page) {
 
 function Search() {
     keyword = document.querySelector('input[name="key"]').value;
-    console.log(keyword);
-    currPage = 1
-    loadPosts(keyword, currPage);
+    document.getElementById('posts').innerHTML ='';
+    currentPage = 1;
+    loadPosts(keyword, currentPage);
 }
 
 // Load initial data when the page loads
 window.onload = function () {
     fetchData(keyword, 1);
 };
+
+
+ // Friend ship action
+function Accept(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/accept?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="unfriend" class="btn1"">Accepted</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function UnFriend(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/unFriend?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="btn1" onclick="AddFriend(${friend_id})">Add friend</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function AddFriend(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/send?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="cancel" class="btn2" onclick="Cancel(${friend_id})">Cancel</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function Reject(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/reject?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="btn2"">Have rejected</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
+
+function Cancel(friend_id){
+    let statusFriend = document.getElementById('friend-status');
+
+    fetch(`http://localhost:8080/Feelbook/api/friend/cancel?friend_id=${friend_id}`, {
+        method: 'post',
+    })
+        .then(response => response.json())
+        .then(data =>{
+
+            if (data.message == "successfully"){
+                statusFriend.innerHTML = `<button id="send" class="btn2"">Have canceled</button>`;
+            }else {
+                alert("Something went wrong");
+            }
+        })
+}
 
 window.onscroll = function (ev) {
     if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight * 0.99) {

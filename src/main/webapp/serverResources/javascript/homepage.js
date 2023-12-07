@@ -21,6 +21,52 @@ function Like(img, post_id, isLike) {
         .catch(err => console.log(err))
 }
 
+function submitComment(){
+    let numComment = document.getElementById('commentButton');
+    const content = document.getElementById('commentText').value;
+    const post_id = document.getElementById('hiredPostId').value;
+    let commentContainer = document.getElementById('comments');
+    var formData = new FormData();
+
+    formData.append("content", content) ;
+    formData.append("post_id", post_id);
+
+    console.log(formData.content);
+    fetch(`http://localhost:8080/Feelbook/api/comment/create`, {
+        method: 'post',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            let miliseconds = data.comment.create_at;
+            let currentTime = new Date().getTime();
+            let hoursDistance = Math.floor((currentTime - miliseconds) / (1000 * 60 * 60));
+            if (hoursDistance > 72) {
+                hoursDistance = parseInt(hoursDistance / 24) + " days ago";
+            } else {
+                hoursDistance += " hours ago";
+            }
+
+
+            console.log(data);
+            htmlCode = `<div class="comments-container" id="commentsContainer">
+                    <!-- Comments will be added here -->
+                    <div class="profile-img">
+                        <img id="Avatar" src="${data.user.avatar}">
+                        <div class="wrapper-comment">
+                            <div class="content">
+                                <a href="/Feelbook/profile?user_id=${data.user.user_id}">${data.user.name}</a>
+                                <span style="font-size: 13px">${hoursDistance}</span>                                
+                                <p class="comment-content">${data.comment.content}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>`;
+            commentContainer.insertAdjacentHTML('beforeend', htmlCode);
+        })
+}
+
 
 function loadRequestList() {
     let container = document.getElementById('request-list');
@@ -136,13 +182,22 @@ function loadComments(post_id){
         .then(data => {
             var htmlCode = '';
             data.forEach(item => {
+                let miliseconds = item.comment.create_at;
+                let currentTime = new Date().getTime();
+                let hoursDistance = Math.floor((currentTime - miliseconds) / (1000 * 60 * 60));
+                if (hoursDistance > 72) {
+                    hoursDistance = parseInt(hoursDistance / 24) + " days ago";
+                } else {
+                    hoursDistance += " hours ago";
+                }
                 htmlCode += `<div class="comments-container" id="commentsContainer">
                     <!-- Comments will be added here -->
                     <div class="profile-img">
                         <img id="Avatar" src="${item.user.avatar}">
                         <div class="wrapper-comment">
                             <div class="content">
-                                <h4>${item.user.name}</h4>
+                                <a href="/Feelbook/profile?user_id=${item.user.user_id}">${item.user.name}</a>
+                                <span style="font-size: 13px">${hoursDistance}</span>                                
                                 <p class="comment-content">${item.comment.content}</p>
                             </div>
                         </div>
@@ -150,6 +205,7 @@ function loadComments(post_id){
                     </div>
                 </div>`;
             })
+            htmlCode+= `<button id="hiredPostId" style="display: none" value="${post_id}"></button>`;
             commentContainer.innerHTML = htmlCode;
         })
 }

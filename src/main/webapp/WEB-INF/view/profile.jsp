@@ -213,41 +213,7 @@
                     <div id="commentModal" class="comment-modal">
                         <div class="comment-modal-content">
                             <div class="modal-container" id="comments">
-
                                 <!-- Container for comments -->
-                                <div class="comments-container" id="commentsContainer">
-                                    <!-- Comments will be added here -->
-                                    <div class="profile-img">
-                                        <img id="Avatar" src="${you.avatar}">
-                                        <div class="wrapper-comment">
-                                            <div class="content">
-                                                <h4>Name</h4>
-                                                <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="comments-container" id="commentsContainer">
-                                    <!-- Comments will be added here -->
-                                    <div class="profile-img">
-                                        <img id="Avatar" src="${you.avatar}">
-                                        <div class="content">
-                                            <h4>Name</h4>
-                                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comments-container" id="commentsContainer">
-                                    <!-- Comments will be added here -->
-                                    <div class="profile-img">
-                                        <img id="Avatar" src="${you.avatar}">
-                                        <div class="content">
-                                            <h4>Name</h4>
-                                            <p class="comment-content">content aaaaahashsa ashashas ashsahsd dsjdshsd dsjdsbds dskidsbsd asjasb</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <span class="close-modal" onclick="closeCommentModal()">&times;</span>
                             <div class="wrapper-img">

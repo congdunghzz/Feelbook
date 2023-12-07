@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,5 +109,31 @@ public class PostApi {
         }
         return result;
     }
+    @GetMapping("/edit")
+    @ResponseBody
+    public PostDto getNeededPost(@RequestParam(value ="post_id") Long post_id, HttpSession session, Model model){
+        PostDto result = null;
+        UserDto token = (UserDto) session.getAttribute("user");
+        if (token == null) return result;
+        PostDto post = postService.getById(post_id.intValue());
 
+        if(token.getUser_id() == post.getUser().getUser_id()){
+            result = post;
+        }
+        return result;
+    }
+    @PostMapping("/edit")
+    @ResponseBody
+    public PostDto EditPost(@RequestParam(value = "post_id") Long post_id,
+                           @RequestParam(value = "content") String content, HttpSession session){
+        PostDto result = null;
+        UserDto token = (UserDto) session.getAttribute("user");
+        if (token == null) return null;
+        PostDto post = postService.getById(post_id.intValue());
+        if(token.getUser_id() == post.getUser().getUser_id()){
+            PostDto editedPost = postService.EditPost(content, post.getPost().getPost_id());
+            if (editedPost != null) result = editedPost;
+        }else result = null;
+        return result;
+    }
 }

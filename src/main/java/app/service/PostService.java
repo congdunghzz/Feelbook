@@ -11,7 +11,7 @@ import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +31,8 @@ public class PostService {
     private LikeDaoIml likeDao;
     @Autowired
     private CommentDaoIml commentDao;
-
+    @Autowired
+    private ServletContext servletContext;
 
     public List<PostDto> getAll(){
         List<Post>postList = postDao.getAll();
@@ -90,14 +91,14 @@ public class PostService {
         return result;
     }
     public String UpLoadImg(Post post, MultipartFile imgFile){
+
+        String absolutePath = servletContext.getRealPath("/userResources/");
         String result = null;
-        File ImgFile = new File("D:/exercise/Web/final/Feelbook/src/main/webapp/userResources/" + post.getUser_id() + "/post-img");
+        File ImgFile = new File(absolutePath + post.getUser_id() + "/post-img");
 
         if(!ImgFile.exists()){
             try{
                 ImgFile.mkdirs();
-                System.out.println("Created folder is name:" + ImgFile.getPath());
-
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 System.out.println(e.getCause());
@@ -147,7 +148,7 @@ public class PostService {
         boolean isUpdated = postDao.Update(post);
         if (isUpdated){
             UserDto user = new UserDto(userDao.getById(post.getUser_id()));
-            result = new PostDto(post, user);
+            result = new PostDto(postDao.getById(post_id), user);
         }
         return result;
     }

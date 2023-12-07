@@ -3,6 +3,7 @@ package app.service;
 import app.dao.UserDaoIml;
 import app.model.DTO.UserDto;
 import app.model.User;
+import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,8 @@ import java.util.concurrent.TransferQueue;
 public class UserService {
     @Autowired
     private final UserDaoIml userDao;
+    @Autowired
+    private ServletContext servletContext;
     public UserService(UserDaoIml userDao){
         this.userDao = userDao;
     }
@@ -109,7 +112,8 @@ public class UserService {
 
     public String setAvatar(int user_id, MultipartFile inputFile){
         String result = null;
-        File ImgFile = new File("D:/exercise/Web/final/Feelbook/src/main/webapp/userResources/" + user_id + "/Avatar");
+        String absolutePath = servletContext.getRealPath("/userResources/");
+        File ImgFile = new File(absolutePath + user_id + "/Avatar");
         if (!ImgFile.exists()) {
             try {
                 ImgFile.mkdirs();

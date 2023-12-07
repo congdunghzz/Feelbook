@@ -57,11 +57,11 @@ public class PostController {
         return result;
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public String DeletePost(@RequestParam("post_id") Long post_id, HttpSession session){
         String result = "error.jsp";
         UserDto token = (UserDto) session.getAttribute("user");
-        if (token == null) return "login.jsp";
+        if (token == null) return "authorization_error.jsp";
         PostDto post = postService.getById(post_id.intValue());
 
         if(token.getUser_id() == post.getUser().getUser_id()){

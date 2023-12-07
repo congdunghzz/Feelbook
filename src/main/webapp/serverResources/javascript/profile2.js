@@ -59,6 +59,17 @@ function getFriendList(user_id){
         .catch(err => console.log(err));
 }
 
+function editPost(post_id, autho){
+    if (autho == 'true'){
+        return ` <i class="fa-solid fa-ellipsis-vertical"><img src="/Feelbook/server-resources/img/image/dot.svg" alt="">
+                             <ul class="subnapEditPost" style="display: inline-block"> 
+                             <li><a onclick="openEditPostModal(${post_id})">Edit</a></li>
+                             <li><a href="/Feelbook/post/delete?post_id=${post_id}">Delete</a></li>
+                             </ul>
+                             </i>`;
+    }else return '';
+
+}
 function loadPostByUser(user_id){
 
     let postContainer = document.getElementById('posts');
@@ -67,10 +78,8 @@ function loadPostByUser(user_id){
         .then(response => response.json())
         .then(data => {
             let htmlCode = '';
-            let editCode = ``;
-            if (autho == 'true'){
-                editCode = ` <i class="fa-solid fa-ellipsis-vertical"><img src="/Feelbook/server-resources/img/image/dot.svg" alt=""></i>`;
-            }
+
+
             data.forEach(object => {
 
                 let miliseconds = object.post.create_at;
@@ -108,7 +117,7 @@ function loadPostByUser(user_id){
                             <span>${hoursDistance}</span>
                         </div>
                     </div>
-                    ${editCode}
+                    ${editPost(object.post.post_id, autho)}
                 </div>
 
                 <p class="post-text">${object.post.content}
@@ -339,6 +348,67 @@ function handleEditClick () {
 }
 function openEditInfoModal(){
     document.getElementById('editInfoModal').style.display = 'flex';
+}
+
+function getEditPost(post_id) {
+    let postContainer = document.getElementById('postEditing');
+    let htmlCode ='';
+    fetch(`http://localhost:8080/Feelbook/api/post/edit?post_id=${post_id}`)
+        .then(response => response.json())
+        .then(data =>{
+            let miliseconds = data.post.create_at;
+            let currentTime = new Date().getTime();
+            let hoursDistance = Math.floor((currentTime - miliseconds) / (1000 * 60 * 60));
+            if (hoursDistance > 72) {
+                hoursDistance = parseInt(hoursDistance / 24) + " days ago";
+            } else {
+                hoursDistance += " hours ago";
+            }
+            let fileType = ``;
+            let mediaHTML = ``;
+            if (data.post.post_img !== null && data.post.post_img !== undefined) {
+                fileType = data.post.post_img.split('.').pop().toLowerCase();
+                if (fileType == 'mp4') {
+
+                    mediaHTML = `<video class="post-img" controls style="width: 100%;">
+                                    <source src="${data.post.post_img}" type="video/mp4">
+                                    Cant play this video.
+                                  </video>`;
+                } else {
+                    mediaHTML = `<img class="post-img" src="${data.post.post_img}" alt="image" style="width: 100%;">`;
+                }
+            }
+            let avatar = `<img src="${data.user.avatar}">`;
+            if (data.user.avatar == null) avatar = '';
+
+            htmlCode += `<div class="post-container">
+                <div class="post-row">
+                    <div class="user-profile Peniel">
+                        ${avatar}
+                        <div>
+                            <a>${data.user.name}</a>
+                            <br>
+                            <span>${hoursDistance}</span>
+                        </div>
+                    </div>
+                </div>
+                <form action="/Feelbook/post/edit?post_id=${data.post.post_id}" method="post">
+                <input name ="content" class="post-text" value="${data.post.content}" style="width: 100%;">
+                </p>
+                ${mediaHTML}
+                <div class="requests-btns">
+                     <button type="submit" class="btn1">Confirm</button>
+                </div>
+                </form>`
+            postContainer.innerHTML = htmlCode;
+        })
+}
+function openEditPostModal(post_id) {
+    document.getElementById('editPostModal').style.display = 'flex';
+    getEditPost(post_id);
+}
+function closeEditPostModal() {
+    document.getElementById('editPostModal').style.display = 'none';
 }
 function closeEditInfoModal() {
     document.getElementById('editInfoModal').style.display = 'none';

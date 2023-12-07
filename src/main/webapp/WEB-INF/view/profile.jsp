@@ -210,6 +210,17 @@
                         </div>
                     </div>
 
+                            <%--editPost modal--%>
+                    <div id="editPostModal" class="comment-modal">
+                        <div class="comment-modal-content">
+                            <div class="posted" id="postEditing">
+
+                            </div>
+                            <span class="close-modal" onclick="closeEditPostModal()">&times;</span>
+                        </div>
+                    </div>
+
+                        <%--commment modal--%>
                     <div id="commentModal" class="comment-modal">
                         <div class="comment-modal-content">
                             <div class="modal-container" id="comments">

@@ -1,5 +1,6 @@
 // common
-
+const api ='http://localhost:8080/Feelbook';
+const root= '/Feelbook';
 let autho = document.getElementById('autho').value;
 
 let userId = document.getElementById("user-id").value;
@@ -39,7 +40,7 @@ function closeEditModal() {
 
 // get friend list
 function getFriendList(user_id){
-    fetch(`http://localhost:8080/Feelbook/api/user/friend?user_id=${user_id}`,)
+    fetch(`${api}/api/user/friend?user_id=${user_id}`,)
         .then(response => response.json())
         .then(data => {
 
@@ -49,7 +50,7 @@ function getFriendList(user_id){
                 htmlCode += `<div class="images-div">
                                 <img id="image-${i}" src="${friend.avatar}">
                                 <p>
-                                    <a href="/Feelbook/profile?user_id=${friend.user_id}">${friend.name}</a>
+                                    <a href="${root}/profile?user_id=${friend.user_id}">${friend.name}</a>
                                 </p>
                             </div>`;
                 i++;
@@ -64,7 +65,7 @@ function editPost(post_id, autho){
         return ` <i class="fa-solid fa-ellipsis-vertical"><img src="/Feelbook/server-resources/img/image/dot.svg" alt="">
                              <ul class="subnapEditPost" style="display: inline-block"> 
                              <li><a onclick="openEditPostModal(${post_id})">Edit</a></li>
-                             <li><a href="/Feelbook/post/delete?post_id=${post_id}">Delete</a></li>
+                             <li><a href="${root}/post/delete?post_id=${post_id}">Delete</a></li>
                              </ul>
                              </i>`;
     }else return '';
@@ -74,7 +75,7 @@ function loadPostByUser(user_id){
 
     let postContainer = document.getElementById('posts');
 
-    fetch(`http://localhost:8080/Feelbook/api/post/user-post?user_id=${user_id}`)
+    fetch(`${api}/api/post/user-post?user_id=${user_id}`)
         .then(response => response.json())
         .then(data => {
             let htmlCode = '';
@@ -112,7 +113,7 @@ function loadPostByUser(user_id){
                     <div class="user-profile Peniel">
                         ${avatar}
                         <div>
-                            <a href="http://localhost:8080/Feelbook/profile?user_id=${object.user.user_id}">${object.user.name}</a>
+                            <a href="${api}/profile?user_id=${object.user.user_id}">${object.user.name}</a>
                             <br>
                             <span>${hoursDistance}</span>
                         </div>
@@ -128,12 +129,12 @@ function loadPostByUser(user_id){
                     <div class="activity-icons">
                         <div>
                             <div id="likeButton">
-                                <img id="likeImage" src="/Feelbook/server-resources/img/image/like-gray.png" onclick="Like(this, ${object.post.post_id},'like')">                   
+                                <img id="likeImage" src="${root}/server-resources/img/image/like-gray.png" onclick="Like(this, ${object.post.post_id},'like')">                   
                                 <span id="likeCount">${object.post.likes}</span>
                             </div>
                         </div>
                         <div id="commentButton" onclick="openCommentModal(${object.post.post_id})">
-                            <img src="/Feelbook/server-resources/img/image/comments.png"> ${object.post.comments}
+                            <img src="${root}/server-resources/img/image/comments.png"> ${object.post.comments}
                         </div>
                     </div>
                 </div>
@@ -147,7 +148,7 @@ function loadPostByUser(user_id){
 function Like(img, post_id, isLike) {
     let count = 1;
     if(isLike == 'unlike') count = -1;
-    fetch(`http://localhost:8080/Feelbook/post-like/${isLike}?post_id=${post_id}`)
+    fetch(`${api}/post-like/${isLike}?post_id=${post_id}`)
         .then(response => response.json())
         .then(date => {
             if (date.message === "successfully") {
@@ -167,7 +168,7 @@ function Like(img, post_id, isLike) {
 
 function loadComments(post_id){
     let commentContainer = document.getElementById('comments');
-    fetch(`http://localhost:8080/Feelbook/api/comment?post_id=${post_id}`)
+    fetch(`${api}/api/comment?post_id=${post_id}`)
         .then(response => response.json())
         .then(data => {
             var htmlCode = '';
@@ -186,7 +187,7 @@ function loadComments(post_id){
                         <img id="Avatar" src="${item.user.avatar}">
                         <div class="wrapper-comment">
                             <div class="content">
-                                <a href="/Feelbook/profile?user_id=${item.user.user_id}">${item.user.name}</a>
+                                <a href="${root}/profile?user_id=${item.user.user_id}">${item.user.name}</a>
                                 <span style="font-size: 13px">${hoursDistance}</span>
                                 <p class="comment-content">${item.comment.content}</p>
                             </div>
@@ -211,7 +212,7 @@ function submitComment(){
     formData.append("post_id", post_id);
 
     console.log(formData.content);
-    fetch(`http://localhost:8080/Feelbook/api/comment/create`, {
+    fetch(`${api}/api/comment/create`, {
         method: 'post',
         body: formData,
     })
@@ -234,7 +235,7 @@ function submitComment(){
                         <img id="Avatar" src="${data.user.avatar}">
                         <div class="wrapper-comment">
                             <div class="content">
-                                <a href="/Feelbook/profile?user_id=${data.user.user_id}">${data.user.name}</a>
+                                <a href="${root}/profile?user_id=${data.user.user_id}">${data.user.name}</a>
                                 <span style="font-size: 13px">${hoursDistance}</span>                                
                                 <p class="comment-content">${data.comment.content}</p>
                             </div>
@@ -249,7 +250,7 @@ function submitComment(){
 function Cancel(friend_id){
     let statusFriend = document.getElementById('friend-status');
 
-    fetch(`http://localhost:8080/Feelbook/api/friend/cancel?friend_id=${friend_id}`, {
+    fetch(`${api}/api/friend/cancel?friend_id=${friend_id}`, {
         method: 'post',
     })
         .then(response => response.json())
@@ -266,7 +267,7 @@ function Cancel(friend_id){
 function Accept(friend_id){
     let statusFriend = document.getElementById('friend-status');
 
-    fetch(`http://localhost:8080/Feelbook/api/friend/accept?friend_id=${friend_id}`, {
+    fetch(`${api}/api/friend/accept?friend_id=${friend_id}`, {
         method: 'post',
     })
         .then(response => response.json())
@@ -283,7 +284,7 @@ function Accept(friend_id){
 function UnFriend(friend_id){
     let statusFriend = document.getElementById('friend-status');
 
-    fetch(`http://localhost:8080/Feelbook/api/friend/unFriend?friend_id=${friend_id}`, {
+    fetch(`${api}/api/friend/unFriend?friend_id=${friend_id}`, {
         method: 'post',
     })
         .then(response => response.json())
@@ -300,7 +301,7 @@ function UnFriend(friend_id){
 function AddFriend(friend_id){
     let statusFriend = document.getElementById('friend-status');
 
-    fetch(`http://localhost:8080/Feelbook/api/friend/send?friend_id=${friend_id}`, {
+    fetch(`${api}/api/friend/send?friend_id=${friend_id}`, {
         method: 'post',
     })
         .then(response => response.json())
@@ -317,7 +318,7 @@ function AddFriend(friend_id){
 function Reject(friend_id){
     let statusFriend = document.getElementById('friend-status');
 
-    fetch(`http://localhost:8080/Feelbook/api/friend/reject?friend_id=${friend_id}`, {
+    fetch(`${api}/api/friend/reject?friend_id=${friend_id}`, {
         method: 'post',
     })
         .then(response => response.json())
@@ -353,7 +354,7 @@ function openEditInfoModal(){
 function getEditPost(post_id) {
     let postContainer = document.getElementById('postEditing');
     let htmlCode ='';
-    fetch(`http://localhost:8080/Feelbook/api/post/edit?post_id=${post_id}`)
+    fetch(`${api}/api/post/edit?post_id=${post_id}`)
         .then(response => response.json())
         .then(data =>{
             let miliseconds = data.post.create_at;
@@ -392,7 +393,7 @@ function getEditPost(post_id) {
                         </div>
                     </div>
                 </div>
-                <form action="/Feelbook/post/edit?post_id=${data.post.post_id}" method="post">
+                <form action="${root}/post/edit?post_id=${data.post.post_id}" method="post">
                 <input name ="content" class="post-text" value="${data.post.content}" style="width: 100%;">
                 </p>
                 ${mediaHTML}

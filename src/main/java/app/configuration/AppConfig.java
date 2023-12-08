@@ -1,6 +1,7 @@
 package app.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public JdbcTemplate getJdbcTemplate(){
+        //jdbc:mysql://localhost:3306/socialnetwork
         String connString = "jdbc:mysql://localhost:3306/socialnetwork";
         String username = "root";
         String password = "";
@@ -62,5 +64,18 @@ public class AppConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
 
+    }
+
+    @Value("http://localhost:8080/Feelbook")
+    private String api;
+    @Value("/Feelbook")
+    private String root;
+    @Bean
+    public String getApi(){
+        return api;
+    }
+    @Bean
+    public String getRoot(){
+        return root;
     }
 }
